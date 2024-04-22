@@ -19,7 +19,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package crypto11
+package internal
 
 import (
 	"crypto"
@@ -177,5 +177,3 @@ func (signer *pkcs11PrivateKeyDSA) Sign(rand io.Reader, digest []byte, opts cryp
 //func (signer *pkcs11PrivateKeyDSA) Public() crypto.PublicKey {
 //	panic("Not implemented")
 //}
-
-

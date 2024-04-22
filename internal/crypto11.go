@@ -21,7 +21,7 @@
 
 // Package crypto11 enables access to cryptographic keys from PKCS#11 using Go crypto API.
 //
-// Configuration
+// # Configuration
 //
 // PKCS#11 tokens are accessed via Context objects. Each Context connects to one token.
 //
@@ -29,7 +29,7 @@
 // In the latter case, the file should contain a JSON representation of
 // a Config.
 //
-// Key Generation and Usage
+// # Key Generation and Usage
 //
 // There is support for generating DSA, RSA and ECDSA keys. These keys
 // can be found later using FindKeyPair. All three key types implement
@@ -42,7 +42,7 @@
 // Symmetric keys can also be generated. These are found later using FindKey.
 // See the documentation for SecretKey for further information.
 //
-// Sessions and concurrency
+// # Sessions and concurrency
 //
 // Note that PKCS#11 session handles must not be used concurrently
 // from multiple threads. Consumers of the Signer interface know
@@ -74,7 +74,7 @@
 // a default maximum is used (see DefaultMaxSessions). In every case the maximum
 // supported sessions as reported by the token is obeyed.
 //
-// Limitations
+// # Limitations
 //
 // The PKCS1v15DecryptOptions SessionKeyLen field is not implemented
 // and an error is returned if it is nonzero.
@@ -85,7 +85,7 @@
 // You can use the BlockModeCloser API
 // but you must call the Close() interface (not found in cipher.BlockMode).
 // See https://github.com/ThalesIgnite/crypto11/issues/6 for further discussion.
-package crypto11
+package internal
 
 import (
 	"crypto"

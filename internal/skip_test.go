@@ -1,4 +1,4 @@
-package crypto11
+package internal
 
 import (
 	"os"

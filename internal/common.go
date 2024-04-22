@@ -19,7 +19,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package crypto11
+package internal
 
 import (
 	"C"
@@ -50,7 +50,7 @@ func bytesToUlong(bs []byte) (n uint) {
 	// the unsafe pointer will always grab/convert ULONG # of bytes
 	var mask uint
 	for i := 0; i < sliceSize; i++ {
-		mask |= 0xff << uint(i * 8)
+		mask |= 0xff << uint(i*8)
 	}
 	return value & mask
 }

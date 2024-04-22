@@ -19,7 +19,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package crypto11
+package internal
 
 import (
 	"github.com/miekg/pkcs11"
@@ -39,7 +39,7 @@ func TestBlockMode(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	if ! found {
+	if !found {
 		// so it was dynamically created
 		defer key.Delete()
 	}
@@ -50,9 +50,9 @@ func TestBlockMode(t *testing.T) {
 }
 
 func trimSize(input []byte, blockSize int) (res []byte) {
-	if len(input) % blockSize != 0 {
+	if len(input)%blockSize != 0 {
 		multiplier := len(input) / blockSize
-		res = make([]byte, (multiplier + 1)*blockSize)
+		res = make([]byte, (multiplier+1)*blockSize)
 		copy(res, input)
 		return
 	}
@@ -61,13 +61,13 @@ func trimSize(input []byte, blockSize int) (res []byte) {
 
 func initBlock(character byte, length int) []byte {
 	dst := make([]byte, length)
-	for i := 0; i < length; i++{
+	for i := 0; i < length; i++ {
 		dst[i] = character
 	}
 	return dst
 }
 
-func testCBCMode(t *testing.T, key *SecretKey, iv []byte){
+func testCBCMode(t *testing.T, key *SecretKey, iv []byte) {
 	a := []byte("ping")
 	b := initBlock('v', 100)
 	short := trimSize(a, len(iv))
@@ -80,7 +80,7 @@ func testCBCMode(t *testing.T, key *SecretKey, iv []byte){
 	cShort := make([]byte, len(short))
 	bmeShort.CryptBlocks(cShort, short)
 	bmeShort.Close()
-	require.Equal(t, 0, len(cShort) % len(iv))
+	require.Equal(t, 0, len(cShort)%len(iv))
 	require.NotContains(t, string(cShort), string(short), "ciphertext does not contain plaintext")
 	// long
 	bmeLong, err := key.NewCBCEncrypterCloser(iv)
@@ -88,7 +88,7 @@ func testCBCMode(t *testing.T, key *SecretKey, iv []byte){
 	cLong := make([]byte, len(long))
 	bmeLong.CryptBlocks(cLong, long)
 	bmeLong.Close()
-	require.Equal(t, 0, len(cLong) % len(iv))
+	require.Equal(t, 0, len(cLong)%len(iv))
 	require.NotContains(t, string(cLong), string(long), "ciphertext does not contain plaintext")
 
 	// DECRYPTION
@@ -98,16 +98,14 @@ func testCBCMode(t *testing.T, key *SecretKey, iv []byte){
 	pShort := make([]byte, len(short))
 	bmdShort.CryptBlocks(pShort, cShort)
 	bmdShort.Close()
-	require.Equal(t, 0, len(pShort) % len(iv))
+	require.Equal(t, 0, len(pShort)%len(iv))
 	require.Contains(t, string(pShort), string(short), "plaintext contains original text")
 	// long
 	pLong := make([]byte, len(long))
 	bmd2, err := key.NewCBCDecrypterCloser(iv)
 	bmd2.CryptBlocks(pLong, cLong)
 	bmd2.Close()
-	require.Equal(t, 0, len(pLong) % len(iv))
+	require.Equal(t, 0, len(pLong)%len(iv))
 	require.Contains(t, string(pLong), string(long), "plaintext contains original text")
 
 }
-
-
